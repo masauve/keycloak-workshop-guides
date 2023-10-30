@@ -52,8 +52,9 @@ image::sso-admin.png[sso-admin, 800]
 
 Click on the link as denoted in the picture and it should take you to the Red Hat SSO main page. 
 
-image::sso_adminlogin.png[Login screen]
+image::sso-login-link.png[Login link]
 
+<1> `Administration Console` and login using the credentials obtained above
 
 === Let's move on
 You now have a running SSO server. Lets move on to do some basic configuration before we head on to using it with our apps.
