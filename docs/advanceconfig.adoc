@@ -157,31 +157,6 @@ The keycloak server should be restarting with the added configuration
 
 Lets wait for it to be deployed successfully. 
 
-
-
-Click on the left menu bar item `Clients` 
-A list of clients will load. 
-Then Click the `Create` button
-
-Following is the information you need to fill. 
-To get the route to your js-console you can run the following command.
-
-[source,bash,subs="+macros,+attributes"]
-----
-oc get route js-console
-----
-
-<1> We have used Master realm in this example, feel free create your own realm. 
-Make sure that you have configured email as described in the earlier section on SSO Config. This needs to be done to get email for the magic link.
-
-<2> Also create a test user account for the realm.
-
-<3> Also fill in the details on the form (e.g. in below screenshot) and press save. Ensure you use protocol with your route e.g. 'http://js-console-evals01-custom-sso-kubernetes-workshop.apps.cph-5a34.open.redhat.com'(An example shown in the following screenshot)
-
-image::sso_adminclientconfig.png[Realm Client settings]
-
-Now go back to your browser and relaod the JS Console app. You should be redirected to the Login page
-
 When we previously deployed Red Hat SSO we also included a custom authenticator that enables users to login through email. 
 Its quite commmon that users of Red Hat SSO would need to change the default flows and configuration. What if the a user wanted to make a magic link to be sent to the ones that are registered. or what if they wanted to change the system themes. or add another flow. Red Hat SSO does that pretty nicely with the ability to add these custom flows to the realm. Lets get started and make a magic link flow.
 
