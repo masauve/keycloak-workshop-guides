@@ -145,6 +145,8 @@ Change the following line "auth-server-url" with your SERVER_URL
   "resource" : "js-console"
 }
 
+
+
 ----
 
 Next open the `js-console/src/index.html`
