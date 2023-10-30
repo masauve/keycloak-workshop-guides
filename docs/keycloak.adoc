@@ -1,7 +1,6 @@
 [#RH-SSO]
-Red Hat Single Sign-On is an integrated sign-on solution available as a Red Hat JBoss Middleware for OpenShift containerized image. The Red Hat Single Sign-On for OpenShift image provides an authentication server for users to centrally log in, log out, register, and manage user accounts for web applications, mobile applications, and RESTful web services.
+Red Hat Single Sign-On is an integrated sign-on solution available as a  containerized image. The Red Hat Single Sign-On for OpenShift image provides an authentication server for users to centrally log in, log out, register, and manage user accounts for web applications, mobile applications, and RESTful web services.
 
-Red Hat offers multiple OpenShift application templates utilizing the Red Hat Single Sign-On for OpenShift image version number 7.5.GA. 
 
 [#ocptemplates]
 === What are OpenShift Operators?
@@ -39,6 +38,18 @@ Create a Red Hat SSO installation by creating a Red Hat SSO Instance using the "
 <2> Click on the button `Create Keycloak` 
 
 image::sso-keycloak-crd.png[sso-keycloak-crd, 800]
+
+
+Examine the form, you can toggle between form view and yaml view to see configuration parameters. The operator offers many possibilities to customize the installation, but for this workshop, leave everything as default and click on the `create` button and the bottom of the page
+
+image::sso-form.png[sso-form, 800]
+
+Wait for the pods to come up.  You should see a database (default to postgres) and a keycloak-0 pods managed by a Kubernetes StatefulSet
+
+<1> 'Workloads' > 'Pods'
+<2> Wait for all the pods to be in Ready state 
+
+image::sso-pods.png[sso-pods, 800]
 
 
 
