@@ -140,7 +140,7 @@ Change the following line "auth-server-url" with your SERVER_URL
 [source, js,role="copypaste"]
 ----
 {
-  "realm" : "demojs",
+  "realm" : "Demojs",
   "auth-server-url" : "https://keycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth",
   "resource" : "js-console"
 }

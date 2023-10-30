@@ -25,7 +25,7 @@ First let's see what algorithm is currently in use.
 
 <3> This will display a rather cryptic string, which is the encoded token. 
 
-<4> Copy this value, making sure you select everything.
+<4> Copy this value, making sure you select everything.x
 
 In a different tab open the https://jwt.io/[JWT validation extension]. 
 
@@ -129,112 +129,35 @@ mvn clean compile package
 cd ../themes
 mvn clean compile package
 
-# copy the jar files
-cd ../sso-custom/stream
-cp ../../magic-link/target/magic-link.jar deployments/
-cp ../../themes/target/themes.jar deployments/
 
 ----
 
-So we have now built the jar files and copied them to our working directory from where we will build our custom RH-SSO image. You can always create the images in an OpenShift namespace, so that all users and applications have access to it. In our case we have chosen to keep this to our project namespace only.
-Remember to `replace evalsXX with your username` and also ensure you are in the `sso-custom/stream` directory before running the following commands.
+These jar files were build previously and for convenience stored in a GIT responsitory. We will use the operator to load these extensions into our keycloak server.
 
 [#custom-stream]
 [source,bash,subs="+macros,+attributes"]
 ----
-
-# Create a new project
-oc new-project <evalsXX>-sso-custom-kubernetes-workshop
-
-# Create a build directive with Red Hat SSO official image stream.
-oc new-build --name custom-sso73-OpenShift --binary --strategy source --image-stream redhat-sso73-OpenShift:1.0
-
-# Start the custom build
-oc start-build custom-sso73-OpenShift --from-dir . --follow
+# edit the keycloak custom resource to instruct the operator to load extensions
+oc get keycloak 
+oc edit keycloak example-keycloak
 ----
 
-Switch to this new project in your OpenShift console. the rest of the guide assumes the new SSO instance in this project.
 
-You can now also run `oc get imagestreams` which should render a similar output as follows.
-Notice that we have named our custom image as `custom-sso73-OpenShift`. 
+add the following section under the `spec:` section
 
 [source,bash,subs="+macros,+attributes"]
 ----
-custom-sso73-OpenShift  docker-registry.default.svc:5000/.../custom-sso73-OpenShift   
+spec:
+  extensions:
+  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/themes.jar
+  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/magic-link.jar
 ----
 
-Now that have the image ready to be deplyed we need to take one last step.
-Lets change the imageStream for the current SSO deployment. To do that, edit the Deployment Config of our deployed SSO. and change the image as follows and save.
-
-image::sso_changeImageStream.png[Events]
-
-
-This will trigger a kill of the current pod and deploy a new one with our imageStream. In the logs you should be able to see our deployed artifacts.
-[source,bash,subs="+macros,+attributes"]
-----
-INFO [org.keycloak.subsystem.server.extension.KeycloakProviderDeploymentProcessor] (MSC service thread 1-2) Deploying Keycloak provider: themes.jar
-INFO [org.keycloak.subsystem.server.extension.KeycloakProviderDeploymentProcessor] (MSC service thread 1-1) Deploying Keycloak provider: token-validation.jar
-17:12:31,083 INFO [org.keycloak.subsystem.server.extension.KeycloakProviderDeploymentProcessor] (MSC service thread 1-1) Deploying Keycloak provider: magic-link.jar
-----
+The keycloak server should be restarting with the added configuration
 
 Lets wait for it to be deployed successfully. 
 
-While OpenShift is deploying, lets also deploy our JS Console. 
 
-Now open the `js-console/src/keycloak.json`
-
-Change the following line "auth-server-url" with your SERVER_URL
-[source, js]
-----
-{
-  "realm" : "demojs",
-  "auth-server-url" : "<SERVER_URL>/auth",
-  "resource" : "js-console"
-}
-
-----
-
-Next open the `js-console/src/index.html`
-And replace the SERVER_URL in the <header> <src>
-For example:
-```
-
-    <script src="https://sso-workshop.apps.cph-c747.open.redhat.com/auth/js/keycloak.js"></script>
-
-```
-
-[#deploy-js-app]
-Before starting make sure that you have Code Ready workspace `Terminal` open. 
-- and also ensure that you have changed you directory too `js-console/src`
-[source,bash,subs="+macros,+attributes"]
-----
-
-oc new-build --name js-console --binary --strategy source --image-stream httpd
-----
-
-Ok, so `oc new-build` should have set the right directives for our applicaiton. i.e. `js-console` which uses the httpd stream.
-
-Lets start our build; in the following command we specify that our build will be from our local source dir.
-[source,bash,subs="+macros,+attributes"]
-----
-oc start-build js-console --from-dir . --follow
-----
-
-Once our build is successfull, lets create a new app with that build; this will be our js-console app.
-[source,bash,subs="+macros,+attributes"]
-----
-oc new-app --image-stream=js-console:latest
-----
-
-And finally expose a route for our service so that we can connect to it externally.
-[source,bash,subs="+macros,+attributes"]
-----
-
-oc expose svc/js-console
-----
-
-Once OpenShift has finished deploying the JS console and Red Hat SSO custom built. 
-Lets also create a client for the JS Console.
 
 Click on the left menu bar item `Clients` 
 A list of clients will load. 
