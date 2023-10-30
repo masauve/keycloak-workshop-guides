@@ -3,6 +3,10 @@ Now that we have the server installed, lets make a few basic configuration chang
 
 In this section we will view some of the current configuration and also add smtp config and email addresses so that our SSO server can communicate with the end users. We will then test our flow with Email verification and user registrations. 
 
+
+
+
+
 [#what-is-realm]
 === What is a Realm 
 A realm is the logical namespace for all configurations, options, for a given group or applications or services. A realm secures and manages security metadata for a set of users, applications, and registered identity brokers, clients etc. Users can be created within a specific realm within the Administration console. Roles (permission types) can be defined at the realm level and you can also set up user role mappings to assign these permissions to specific users. A user belongs to and logs into a realm. Realms are isolated from one another and can only manage and authenticate the users that they control.
@@ -26,16 +30,21 @@ To start lets setup a mail server that has a catchall and is only used for testi
 MailCatcher runs a super simple SMTP server which catches any message sent to it to display in a web interface. By running mailcatcher we can get all the emails within our setup for testing and we wont need to use our personal or corporate emails for this. Its a great utility. the mail server is setup on port '1025' and the html interface to recieve and send should be setup on port '8080'. Lets create our test mail server by running the following commands. To this click on the workbench icon on the right hand side in your CodeReady Workspace.
 
 
-image::crw_right_workbench.png[Workbench]
 
 <1> Login to OpenShift
 
 <2> New Terminal
 
+
 Now you can run the following commands in the terminal you just opened.
+
+image::dev-openshift-login.png[login]
+
 
 [source,bash,role="copypaste"]
 ----
+oc login -u userX -p OpenShift
+oc project userX-keycloak
 oc new-app quay.io/sshaaf/mailcatcher --name=mailcatcher
 
 oc expose svc/mailcatcher --port 8080
@@ -98,7 +107,7 @@ Open a new browser session in privacy mode, or open another browser.
   
   * Ensure that you are not logged into the SSO admin panel in the newly opened browser sessions. 
 
-Link to the console: https://sso-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/demojs/account
+Link to the console: https://keycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/Demojs/account
 
 <1> It should show a login screen, with a link under the buttons to register. 
 
