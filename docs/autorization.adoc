@@ -274,7 +274,7 @@ Lets start with configuring SSO first.
 
 We will create a new realm by exporing the realm config file. To do that download the https://raw.githubusercontent.com/RedHat-Middleware-Workshops/keycloak-workshop-labs/main/crud-oidc/src/main/resources/quarkus-realm.json[Quarkus-realm] config file to your own machine. 
 
-Login to your SSO instance again; https://sso-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}
+Login to your SSO instance again; https://leycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}
 
 * 1. Add a new realm by pressing the `Add Realm` button on the right side
 * 2. Then press the button `Select file` and select the downloaded file from your local machine. 
@@ -295,7 +295,7 @@ Perfect! Now we are at a point that we need to configure our backend service to 
 
 [source, shell]
 ----
-#quarkus.oidc.auth-server-url=https://sso-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus <1> 
+#quarkus.oidc.auth-server-url=https://leycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus <1> 
 #quarkus.oidc.client-id=backend-service <2> 
 #quarkus.oidc.credentials.secret=secret <3> 
 ----
@@ -360,7 +360,7 @@ As a first we need to first authenticate with SSO to ensure we have a valid toke
 [source,sh,role="copypaste"]
 ----
  export access_token=$(\
-    curl --insecure -X POST https://sso-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus/protocol/openid-connect/token \
+    curl --insecure -X POST https://leycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus/protocol/openid-connect/token \
     --user backend-service:secret \
     -H 'content-type: application/x-www-form-urlencoded' \
     -d 'username=alice&password=alice&grant_type=password' | jq --raw-output '.access_token' \
@@ -412,7 +412,7 @@ Try to autheticate again with user `admin` instead as shown below. The following
 [source,sh,role="copypaste"]
 ----
  export access_token=$(\
-    curl --insecure -X POST https://sso-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus/protocol/openid-connect/token \
+    curl --insecure -X POST https://leycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus/protocol/openid-connect/token \
     --user backend-service:secret \
     -H 'content-type: application/x-www-form-urlencoded' \
     -d 'username=admin&password=admin&grant_type=password' | jq --raw-output '.access_token' \
