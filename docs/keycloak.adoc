@@ -54,6 +54,8 @@ Click on the link as denoted in the picture and it should take you to the Red Ha
 
 image::sso-login-link.png[Login link]
 
+Login to the administraion console of RH-SSO
+
 <1> `Administration Console` and login using the credentials obtained above
 
 === Let's move on
