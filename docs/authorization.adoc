@@ -39,6 +39,27 @@ for the purpose of this workshop:
 
 === Enable Authorization services
 
+For this workshop, we will use a custom policy.
+
+the custom policy looks like this:
+
+[source,javascript,role="copypaste"]
+----
+var context = $evaluation.getContext();
+var identity = context.getIdentity();
+var attributes = identity.getAttributes();
+var email = attributes.getValue('email').asString(0);
+
+if (email.endsWith('@redhat.com')) {
+    $evaluation.grant();
+}
+----
+
+It gets the email attributes from the token associated with the user and returns a positive evaluation when the email domain is redhat.com
+
+
+
+
 Lets first start by configuration our PDP (RH SSO).
 Using the RH SSO Console.
 
@@ -54,17 +75,28 @@ We will now configure authorization services for the backend-service client
 
 First, lets create the scopes we need to protect the resources. In OIDC terminology, scopes usually represent the actions that can be performed on a resource, but they are not limited to that. You can also use scopes to represent one or more attributes within a resource.
 Lets create the following scope:
+
 <1> Authorization Tab > Scope > `Create` button
-<1.1> create - that we will later map to the book creation API
-<1.2> view - for everything else
+<2> create - that we will later map to the book creation API
+<3> view - for everything else
 
 image::keycloak_scopes.png[keycloak_scopes, 900]
 
 
+Next, we will create the resource. In OIDC terminology, a resource can be a web page, a RESTFul resource, a file in your file system, a bean, and so on. They can represent a group of resources (just like a Class in Java) or they can represent a single and specific resource.
+
+<1> Authorization Tab > Resources > 'create' button
+<2> Enter the resource name, url and type
+<3> Associate the scopes created above with the resources and click on the `save` button
+
+We have now defined that the books endpoint of our API offers two different actions: create and view
+
+image::keycloak_resources.png[keycloak_resources, 900]
 
 
 
-To create our Book entity we are going to use Panache. Hibernate ORM is the de facto JPA implementation and offers you the full breadth of an Object Relational Mapper. It makes complex mappings possible, but it does not make simple and common mappings trivial. Hibernate ORM with Panache focuses on making your entities trivial and fun to write in Quarkus. Lets start by defining the fields we want to store in a Book entity.
+
+
 
 [source,java,role="copypaste"]
 ----
