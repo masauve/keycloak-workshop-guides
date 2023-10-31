@@ -29,5 +29,6 @@ modules:
   - identityproviders
   - advanceconfig
   - quarkusservice
+  - authorization
   - conclusion
   - appendix

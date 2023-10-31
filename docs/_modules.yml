@@ -22,6 +22,8 @@ modules:
     name: Advanced Configuration
   quarkusservice:
     name: Securing Cloud native apps
+  authorization:
+    name: Autorization and policy enforcement
   conclusion:
     name: Conclusion  
   appendix:
