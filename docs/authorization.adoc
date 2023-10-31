@@ -57,7 +57,28 @@ if (email.endsWith('@redhat.com')) {
 
 It gets the email attributes from the token associated with the user and returns a positive evaluation when the email domain is redhat.com
 
+This policy is packaged in another Keycloak extension that we must add to our keycloak server
 
+The jar file was build previously and for convenience stored in a GIT responsitory. We will use the operator to load these extensions into our keycloak server.
+
+[#custom-stream]
+[source,bash,subs="+macros,+attributes"]
+----
+# edit the keycloak custom resource to instruct the operator to load extensions
+oc get keycloak 
+oc edit keycloak example-keycloak
+----
+
+add the following extension:
+
+[source,bash,subs="+macros,+attributes"]
+----
+spec:
+  extensions:
+  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/themes.jar
+  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/magic-link.jar
+  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/authz-js-policies.jar
+----
 
 
 Lets first start by configuration our PDP (RH SSO).
