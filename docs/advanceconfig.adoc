@@ -149,8 +149,8 @@ add the following section under the `spec:` section
 ----
 spec:
   extensions:
-  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/themes.jar
-  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/magic-link.jar
+  - https://gitea-gitea.{{ ROUTE_SUBDOMAIN }}/keycloak/extensions/raw/branch/main/themes.jar
+  - https://gitea-gitea.{{ ROUTE_SUBDOMAIN }}/keycloak/extensions/raw/branch/main/magic-link.jar
 ----
 
 The keycloak server should be restarting with the added configuration

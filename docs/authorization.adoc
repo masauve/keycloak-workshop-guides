@@ -28,7 +28,7 @@ image::auth-arch-overview.png[auth-arch-overview, 900]
 
 The simplified pattern can look like:
 
-image::pep-pattern-diagram.png[pep-pattern-diagram.png, 900]
+image::pep-pattern-diagram.png[pep-pattern-diagram.png, 600]
 
 for the purpose of this workshop:
 
@@ -75,9 +75,9 @@ add the following extension:
 ----
 spec:
   extensions:
-  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/themes.jar
-  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/magic-link.jar
-  - https://gitea-gitea.apps.cluster-m8w78.m8w78.sandbox2421.opentlc.com/keycloak/extensions/raw/branch/main/authz-js-policies.jar
+  - https://gitea-gitea.{{ ROUTE_SUBDOMAIN }}/keycloak/extensions/raw/branch/main/themes.jar
+  - https://gitea-gitea.{{ ROUTE_SUBDOMAIN }}/keycloak/extensions/raw/branch/main/magic-link.jar
+  - https://gitea-gitea.{{ ROUTE_SUBDOMAIN }}/keycloak/extensions/raw/branch/main/authz-js-policies.jar
 ----
 
 
@@ -221,3 +221,26 @@ curl -X POST -H 'Content-Type: application/json' http://crud-oidc-{{ USER_ID }}-
 
 The second query should return a 403 (Forbidden) error. Since Alice email is not in the redhat.com domain.
 
+Let's fix that.
+
+In the Red Hat SSO console, edit the Alice user and set her email to 'alice@redhat.com'
+
+Since the attributes are part of the token, we need to obtain a new access_token.
+
+[source,sh,role="copypaste"]
+----
+ export access_token=$(\
+    curl --insecure -X POST https://keycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus/protocol/openid-connect/token \
+    --user backend-service:secret \
+    -H 'content-type: application/x-www-form-urlencoded' \
+    -d 'username=alice&password=alice&grant_type=password' | jq --raw-output '.access_token' \
+ )
+----
+
+Now, the POST request should be successful
+
+[source,sh]
+----
+# Create a new book
+curl -X POST -H 'Content-Type: application/json' http://crud-oidc-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/books -d @temp.json -H "Authorization: Bearer "$access_token -v
+----

@@ -300,7 +300,7 @@ Perfect! Now we are at a point that we need to configure our backend service to 
 #quarkus.oidc.credentials.secret=secret <3> 
 ----
 Copy the above properties in the `application.properties` file.
-<1> is the authenticatin url that our Quarkus application will use to establish authentication.
+<1> is the authentication url that our Quarkus application will use to establish authentication.
 <2> name of our client. should be similar to the one in our realm config
 <3> our confidential secret to authenticate the backend-service.
 
