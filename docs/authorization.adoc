@@ -115,6 +115,37 @@ We have now defined that the books endpoint of our API offers two different acti
 image::keycloak_resources.png[keycloak_resources, 900]
 
 
+In the next step we will create a policy that will be used to make an enforcement decision. The policy has been previously loaded, but it needs to be enabled on the OIDC backend-service client.
+
+<1> Authorization Tab > Policies > 'create' button
+<2> Select 'email match domain' policy.
+
+image::keycloak_policy.png[keycloak_policy, 900]
+
+You can look at the policy in the RH SSO console, you will see the code that was loaded using the extension capability of Keycloak
+
+The final step is to configuration the permissions on the resources and scopes using the policies that we have enabled.
+
+<1> Authorization Tab > permission > 'create' button
+<2> Fill out the form and associate the create scope to the `email match domain` policy.
+<3> click save
+
+image::keycloak_create_permission.png[keycloak_create_permission, 900]
+
+Repeat for the view scope but used the `default` policy. Everyone with a valid token will be granted access to view resources
+
+image::keycloak_view_permission.png[keycloak_view_permission, 900]
+
+Now, go the Users menu and update the `Alice` user with an email outside the redhat.com domain.
+For example:
+
+image::keycloak_alice_config.png[keycloak_alice_config, 900]
+
+
+=== Configure the application
+
+
+
 
 
 
