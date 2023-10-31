@@ -48,7 +48,21 @@ Using the RH SSO Console.
 <4> Click on 'Save' at the bottom of the page
 <5> This should activate the 'Authorization' tab
 
-image:: keycloak-client-authz.png[keycloak-client-authz, 900]
+image::keycloak-client-authz.png[keycloak-client-authz, 900]
+
+We will now configure authorization services for the backend-service client
+
+First, lets create the scopes we need to protect the resources. In OIDC terminology, scopes usually represent the actions that can be performed on a resource, but they are not limited to that. You can also use scopes to represent one or more attributes within a resource.
+Lets create the following scope:
+<1> Authorization Tab > Scope > `Create` button
+<1.1> create - that we will later map to the book creation API
+<1.2> view - for everything else
+
+image::keycloak_scopes.png[keycloak_scopes, 900]
+
+
+
+
 
 To create our Book entity we are going to use Panache. Hibernate ORM is the de facto JPA implementation and offers you the full breadth of an Object Relational Mapper. It makes complex mappings possible, but it does not make simple and common mappings trivial. Hibernate ORM with Panache focuses on making your entities trivial and fun to write in Quarkus. Lets start by defining the fields we want to store in a Book entity.
 
