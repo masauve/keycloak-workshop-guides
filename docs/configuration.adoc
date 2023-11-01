@@ -43,7 +43,7 @@ image::dev-openshift-login.png[login]
 
 [source,bash,role="copypaste"]
 ----
-oc login -u userX -p OpenShift
+oc login -u {{ USER_ID }} -p openshift https://api.cluster-njgjw.njgjw.sandbox3016.opentlc.com:6443
 oc project userX-keycloak
 oc new-app quay.io/sshaaf/mailcatcher --name=mailcatcher
 
