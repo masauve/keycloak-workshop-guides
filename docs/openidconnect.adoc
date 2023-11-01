@@ -45,7 +45,7 @@ Red Hat SSO makes it possible to add custom attributes to users as well as addin
 
 <4> Select the user you registered with earlier, and not the Admin user.
 
-<5> Click on attributes and add key avatar_url with value https://www.keycloak.org/resources/images/keycloak_logo_200px.svg. 
+<5> Click on attributes and add key avatar_url with value https://www.keycloak.org/resources/images/logo.svg. 
 
 <6> Click Add followed by Save.
 
@@ -85,7 +85,7 @@ Now we've created a client scope, but we also need to asign it to the client, so
 
 [source, json]
 ----
-"avatar_url": "https://www.keycloak.org/resources/images/keycloak_logo_200px.svg",
+"avatar_url": "https://www.keycloak.org/resources/images/logo.svg",
 
 ----
 
