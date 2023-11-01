@@ -295,9 +295,9 @@ Perfect! Now we are at a point that we need to configure our backend service to 
 
 [source, shell]
 ----
-#quarkus.oidc.auth-server-url=https://keycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus <1> 
-#quarkus.oidc.client-id=backend-service <2> 
-#quarkus.oidc.credentials.secret=secret <3> 
+quarkus.oidc.auth-server-url=https://keycloak-{{ USER_ID }}-keycloak.{{ ROUTE_SUBDOMAIN }}/auth/realms/quarkus <1> 
+quarkus.oidc.client-id=backend-service <2> 
+quarkus.oidc.credentials.secret=secret <3> 
 ----
 Copy the above properties in the `application.properties` file.
 <1> is the authentication url that our Quarkus application will use to establish authentication.
@@ -318,7 +318,7 @@ To add the extenstion run the following command
 mvn quarkus:add-extension -Dextensions='oidc' 
 ----
 
-Now that we have all the dependencies required. Lets add the following imports to our `BookResource.java`
+Now that we have all the dependencies required. Lets look at the following imports to our `BookResource.java`
 
 [source,java,role="copypaste"]
 ----
