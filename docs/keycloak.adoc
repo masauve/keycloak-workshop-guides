@@ -15,9 +15,12 @@ Lets first take a look at the installed operators:
 
 <1> Open the OpenShift console   {{ CONSOLE_URL }}[Open this link^] 
 
-<2> Click on the button `Add` in the right menu and then > 'Developer Catalog' > 'Operator Backed'
+<2> Click on the button `Add` in the right menu > 'Developer Catalog' > 'Operator Backed'
 
 <3> Select Keycloak
+
+
+You may have to select the namespace before adding.  The namespace should be `{{ USER_ID}}-keycloak`
 
 image::sso-dev-operator.png[sso-operator, 800]
 
